@@ -1,5 +1,7 @@
 # COSC 481 Final Project
 
+![Quokka Greeting](./assets/quokka.jpeg)
+
 ## Quick Start
 
 1. Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
@@ -17,3 +19,5 @@
 ├── specification.pdf
 └── uv.lock
 ```
+
+## Citation
