@@ -401,6 +401,8 @@ def main():
     camera.zoom = 1.0
 
     coin_texture = load_texture("./assets/shining_coin_sprite.png")
+    duration_left = SHINING_COIN_SPRITE_DURATION
+    cur = 0
 
     # --- Game Loop ---
     while not window_should_close():
@@ -452,8 +454,15 @@ def main():
         draw_level(game_level)
 
         # 2. Draw Collectibles
-        draw_coins(collectibles, coin_texture, frame)
-        # frame = (frame + 1) % (SHINING_COIN_SPRITE_ROWS * SHINING_COIN_SPRITE_COLS)
+        duration_left -= delta_time
+
+        if duration_left <= 0:
+            # print(cur, type)
+            duration_left = SHINING_COIN_SPRITE_DURATION
+            cur += 1  # step
+            cur = cur % (SHINING_COIN_SPRITE_ROWS * SHINING_COIN_SPRITE_COLS)
+
+        draw_coins(collectibles, coin_texture, cur)
 
         # 3. Draw Enemies
         for enemy in enemies:

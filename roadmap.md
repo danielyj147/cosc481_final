@@ -22,7 +22,7 @@
 
 **Next/TO DO :**
 
-- animation, investigate texture atlas
+- fix coin sprite alignment
 - class Coin/Coins
 
 ---
