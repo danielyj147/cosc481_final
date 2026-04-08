@@ -5,5 +5,6 @@ description = "2026 Spring COSC481 Final Project"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "imageio>=2.37.3",
     "raylib>=5.5.0.4",
 ]
