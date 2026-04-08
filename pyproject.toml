@@ -1,0 +1,9 @@
+[project]
+name = "cosc481-final"
+version = "0.1.0"
+description = "2026 Spring COSC481 Final Project"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pyray>=0.1.0",
+]
