@@ -315,21 +315,32 @@ def draw_level(level):
                 draw_rectangle_lines(x, y, TILE_SIZE, TILE_SIZE, BLACK)
 
 
-def draw_coins(coins):
+def coin_frame(frame) -> Rectangle:
+    x = frame // SHINING_COIN_SPRITE_ROWS * SHINING_COIN_SPRITE_SIZE
+    y = (
+        frame % SHINING_COIN_SPRITE_COLS * SHINING_COIN_SPRITE_SIZE
+        + SHINING_COIN_SPRITE_YT_OFFSET
+    )
+
+    return Rectangle(
+        x,
+        y,
+        SHINING_COIN_SPRITE_SIZE,
+        SHINING_COIN_SPRITE_SIZE,
+    )
+
+
+def draw_coins(coins, coin_texture, frame: int):
     """Draws the active coins as small yellow diamonds (polygons)."""
-    radius = TILE_SIZE * 0.3 / 2
-
     for cx, cy in coins:
-        v1 = Vector2(cx, cy - radius * 2)
-        v2 = Vector2(cx + radius * 1.5, cy)
-        v3 = Vector2(cx, cy + radius * 2)
-        v4 = Vector2(cx - radius * 1.5, cy)
-
-        draw_triangle(v1, v2, v4, YELLOW)
-        draw_triangle(v2, v3, v4, GOLD)
-
-        draw_line_v(v1, v3, BLACK)
-        draw_line_v(v2, v4, BLACK)
+        draw_texture_pro(
+            coin_texture,
+            coin_frame(frame),
+            Rectangle(cx - 20, cy - 20, 40, 40),
+            Vector2(0, 0),
+            0.0,
+            WHITE,
+        )
 
 
 def update_camera(
@@ -379,12 +390,17 @@ def main():
     score = 0
     game_state = "PLAYING"
 
+    # FRAME
+    frame = 0
+
     # --- Camera Initialization ---
     camera = Camera2D()
     camera.target = Vector2(player.x, player.y)
     camera.offset = Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     camera.rotation = 0.0
     camera.zoom = 1.0
+
+    coin_texture = load_texture("./assets/shining_coin_sprite.png")
 
     # --- Game Loop ---
     while not window_should_close():
@@ -436,7 +452,8 @@ def main():
         draw_level(game_level)
 
         # 2. Draw Collectibles
-        draw_coins(collectibles)
+        draw_coins(collectibles, coin_texture, frame)
+        # frame = (frame + 1) % (SHINING_COIN_SPRITE_ROWS * SHINING_COIN_SPRITE_COLS)
 
         # 3. Draw Enemies
         for enemy in enemies:
