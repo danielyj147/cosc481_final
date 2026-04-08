@@ -1,6 +1,7 @@
 # --- Game Constants ---
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
+TARGET_FRAME = 60
 TILE_SIZE = 40  # Size of one tile in pixels
 GRAVITY = 1800.0  # Downward acceleration (pixels/s/s)
 JUMP_VELOCITY = -750.0  # Initial upward velocity on jump
@@ -51,3 +52,6 @@ SHINING_COIN_SPRITE_ROWS = 2
 SHINING_COIN_SPRITE_COLS = 3
 
 SHINING_COIN_SPRITE_DURATION = 0.1
+
+GIF_CAPTURE_INTERVAL = 4  # capture every 4th frame → 15fps
+GIF_SAVE_FPS = 15

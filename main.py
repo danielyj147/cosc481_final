@@ -1,5 +1,7 @@
 from pyray import *  # type: ignore
 from config import *
+import imageio
+import numpy as np
 
 # --- Utility Functions ---
 
@@ -379,7 +381,7 @@ def main():
         SCREEN_HEIGHT,
         "Raylib 2D Platformer Clone (Stomp Mechanic)",
     )
-    set_target_fps(60)
+    set_target_fps(TARGET_FRAME)
 
     # Prepare Level Data: Separate collision map from dynamic entities
     game_level, collectibles, enemies = parse_level(LEVEL)
@@ -389,9 +391,6 @@ def main():
     player = Player(TILE_SIZE * 2, TILE_SIZE * 2)
     score = 0
     game_state = "PLAYING"
-
-    # FRAME
-    frame = 0
 
     # --- Camera Initialization ---
     camera = Camera2D()
@@ -404,9 +403,43 @@ def main():
     duration_left = SHINING_COIN_SPRITE_DURATION
     cur = 0
 
+    gif_recording = False
+    gif_frame_counter = 0
+    frames = []
+
     # --- Game Loop ---
     while not window_should_close():
         delta_time = get_frame_time()
+        if delta_time > 1 / 30:
+            delta_time = 1 / 30
+
+        # record
+        if is_key_down(KeyboardKey.KEY_LEFT_CONTROL) and is_key_pressed(
+            KeyboardKey.KEY_R
+        ):
+            if gif_recording:
+                gif_recording = False
+                if frames:
+                    imageio.mimsave("output.gif", frames, fps=GIF_SAVE_FPS)
+                frames = []
+            else:
+                gif_recording = True
+                gif_frame_counter = 0
+
+        if gif_recording:
+            gif_frame_counter += 1
+            if gif_frame_counter >= GIF_CAPTURE_INTERVAL:
+                im_screen = load_image_from_screen()
+                size = im_screen.width * im_screen.height * 4
+                buf = ffi.buffer(im_screen.data, size)
+                frame_arr = (
+                    np.frombuffer(buf, dtype=np.uint8)
+                    .reshape((im_screen.height, im_screen.width, 4))
+                    .copy()
+                )
+                frames.append(frame_arr)
+                gif_frame_counter = 0
+                unload_image(im_screen)
 
         # --- Update ---
         if game_state == "PLAYING":
