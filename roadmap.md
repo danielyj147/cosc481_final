@@ -1,5 +1,40 @@
 # Roadmap.md
 
+### Date: 04/13 11:20 PM - 4/14 1:00 AM
+
+**Goal**
+
+- Narrative Ideation
+    - Come up with inspirations
+- Mechanics Ideation
+- Title Ideation
+- Add GDD Boilerplate 
+
+**Implementation**
+
+*Technical Plan/Credit*:
+
+- Convert GDD Google doc to .md file
+- Research games that I've enjoyed
+
+*Content Credit*: 
+
+- [Owl Chemist GDD](https://docs.google.com/document/d/1_iPOdIFm9iiRNyMTM2WL3YTD0CGeOks3YKBjTsDJvd8/edit?tab=t.0#heading=h.k2hqrk99qjg6)
+- [Professor Layton Game Series](https://en.wikipedia.org/wiki/Professor_Layton)
+- [Professor Layton Soundtrack](https://www.youtube.com/watch?v=8PydbXdAx84&list=RD8PydbXdAx84&start_radio=1)
+- [Getting Over It with Bennett Foddy](https://en.wikipedia.org/wiki/Getting_Over_It_with_Bennett_Foddy)
+
+**Commit message**
+
+- `doc: add GDD boilerplate`
+
+**Next/TO DO :**
+
+- Finish GDD
+- Find character sprite
+
+---
+
 ### Date: 04/08/2026 12:50 PM
 
 **Goal**
