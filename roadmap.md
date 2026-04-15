@@ -20,7 +20,7 @@
 
 **Commit message**
 
-- 
+- `doc: finished GDD`
 
 **Next/TO DO :**
 
