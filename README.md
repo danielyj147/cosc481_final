@@ -2,6 +2,11 @@
 
 ![Quokka Greeting](./assets/quokka.jpeg)
 
+## Links
+
+- [Game Design Document](./GDD_V1.md)
+- [Roadmap](./roadmap.md)
+
 ## Quick Start
 
 ### PIP
@@ -18,11 +23,18 @@
 ## Structure
 
 ```
+├── GDD_V1.md # Game Design Document
 ├── README.md
+├── assets
+│   ├── quokka.jpeg
+│   ├── shining_coin_sprite.png
+│   └── terraria_hook.png
 ├── config.py
 ├── main.py
+├── output.gif
 ├── pyproject.toml
-├── roadmap.md # development log
+├── requirements.txt
+├── roadmap.md
 ├── specification.pdf
 └── uv.lock
 ```
