@@ -1,5 +1,35 @@
 # Roadmap.md
 
+### Date: 04/15 12:45 PM - 2:35 PM
+
+**Goal**
+
+- Finish the narrative
+  
+**Implementation**
+
+- Game pitch, background story, 
+
+*Technical Plan/Credit*:
+
+- N/A(documentation)
+
+*Content Credit*: 
+
+- [Foggy Bottom Observatory](https://observatory.colgate.edu/foggybot/foggybot.html)
+
+**Commit message**
+
+- 
+
+**Next/TO DO :**
+
+- Find character sprite & digital assets that match the theme of the game
+- Implement character & rope mechenics.
+- Polish the writing
+
+---
+
 ### Date: 04/13 11:20 PM - 4/14 1:00 AM
 
 **Goal**

@@ -1,34 +1,53 @@
-# Game Design Document
+# Foggy Bottom Mystery: Game Design Document
 
 [Recommanded Soundtrack](https://www.youtube.com/watch?v=8PydbXdAx84&list=RD8PydbXdAx84&start_radio=1)
 
+![Foggy Bottom Observatory](https://observatory.colgate.edu/foggybot/foggybot.gif)
+
 ## Table of Contents
 
-- [Introduction](#introduction)
-  - [Game Summary Pitch](#game-summary-pitch)
-  - [Inspiration](#inspiration)
-  - [Player Experience](#player-experience)
-  - [Platform](#platform)
-  - [Software](#software)
-  - [Genre](#genre)
-  - [Target Audience](#target-audience)
-- [Concept](#concept)
-  - [Gameplay Overview](#gameplay-overview)
-  - [Theme Interpretation](#theme-interpretation)
-  - [Primary Mechanics](#primary-mechanics)
-  - [Secondary Mechanics](#secondary-mechanics)
-- [Art](#art)
-- [Audio](#audio)
-- [Game Experience](#game-experience)
-- [Development Timeline](#development-timeline)
+- [Foggy Bottom Mystery: Game Design Document](#foggy-bottom-mystery-game-design-document)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+    - [Game Summary Pitch](#game-summary-pitch)
+    - [Inspiration](#inspiration)
+    - [Player Experience](#player-experience)
+    - [Platform](#platform)
+    - [Software](#software)
+    - [Genre](#genre)
+    - [Target Audience](#target-audience)
+  - [Concept](#concept)
+    - [Gameplay Overview](#gameplay-overview)
+    - [Theme Interpretation](#theme-interpretation)
+    - [Primary Mechanics](#primary-mechanics)
+    - [Secondary Mechanics](#secondary-mechanics)
+  - [Art](#art)
+    - [Theme Interpretation](#theme-interpretation-1)
+    - [Design](#design)
+  - [Audio](#audio)
+    - [Music](#music)
+    - [Sound Effects](#sound-effects)
+  - [Game Experience](#game-experience)
+    - [UI](#ui)
+    - [Controls](#controls)
+  - [Development Timeline](#development-timeline)
+    - [Minimum Lovable Product](#minimum-lovable-product)
+  - [References](#references)
 
 ---
+
 
 ## Introduction
 
 ### Game Summary Pitch
 
-Hooked on a feeling
+Have you ever been to Colgate University's Foggy Bottom Obervatory? 
+
+Me neither. 
+
+What is this place, really? What is going on in there?? Why is it called Foggy Bottom??? A new Astrology Professor who has recently become a Colgate faculty goes out to find out the mystery of Fogggy Bottom Obervatory.
+
+To the foggy bottom...
 
 ### Inspiration
 
@@ -50,9 +69,14 @@ _Terraria_ has hooking mechanism that allows user to move between platforms usin
 
 ![terraria hook](/assets/terraria_hook.png)
 
+
 ### Player Experience
 
-In 5 carefully crafted levels inside a gothic yet cartoony tower, the player must traverse **platforming** sections using **snappy movement** aided by creative applications of potions. The trek also features **light combat and exploration elements**. The player must use **quick reflexes and patience** to master the skill curve of the movement and potions to progress.
+From the foggy bottom, the player uses a hook with rope to climb back to outside.
+Player can shoot the hook with a mouse left click and swing with mouse movement. 
+There are obsticles such as pivot points and reflective blocks(reflects hook).
+The play must use problem solving skills and quick reflexes to get use to this rather uncommon mechanics. 
+
 
 ### Platform
 
@@ -62,7 +86,7 @@ The game is developed to be released on Mac & Windows PC with Pyray framwork.
 ### Software
 
 - VS Code
-- [DaVinci Resolve](https://www.blackmagicdesign.com/products/davinciresolve/photo)
+- [DaVinci Resolve](https://www.blackmagicdesign.com/products/davinciresolve/photo) (For image editing)
 
 ### Genre
 
@@ -78,9 +102,14 @@ COSC 481 students
 
 ### Gameplay Overview
 
-<!-- The player controls a blue owl alchemist (affectionately named the Owlchemist), attempting to reclaim his alchemist tower from a powerful shadow wizard. In each level, the player must use **jumping, gliding, and potion throwing** to platform around deadly obstacles and ascend the tower. -->
+The player controls an Astronomy Professor who's injured in legs to climb out of 
+Foggy Bottom Observatory using a hook with a rope. 
 
-### Theme Interpretation (Shadows and Alchemy)
+### Theme Interpretation
+
+Foggy background, Climb / Vertical Levels: a whimsical interpretation of the origin of the name "`Foggy` Bottom Obervatroy"
+
+Inability to walk or jump: the character is injured from the fall.
 
 <!-- **'Shadows' interpretation:** The player is tasked with defeating a shadow wizard and is challenged by several enemies corrupted by shadow.
 
@@ -89,6 +118,8 @@ COSC 481 students
 **'Alchemy' interpretation:** The player plays as an alchemist who can use potions to traverse, fight enemies, and overcome obstacles through levels of a tower that have repeated alchemical motifs throughout.
 
 **Alchemy** makes itself incredibly prevalent throughout the theming and setting of the game, as the player controls an alchemist who uses multiple types of potions as a primary means of problem-solving and traversal. Conversely, **shadows** represent the game's opposition, with the main antagonist being a shadow wizard who has sent forth multiple types of shadow minions to challenge the player. Shadows also pervade as a motif in the gothic, "spooky" theming of the alchemist's tower. -->
+
+
 
 ### Primary Mechanics
 
@@ -112,11 +143,13 @@ COSC 481 students
 
 ### Theme Interpretation
 
-<!-- The design of the characters and settings is influenced by the 'alchemy' theme, with the main character being a stylized alchemist and several alchemical props (potions, cauldrons, etc.) throughout the game. The 'shadows' theme comes into play with the design of the enemies and the dark, Castlevania-esque architecture and theming of the game. -->
+The background should go along with the theme of "foggy bottom". I think the background should look like the chracter is trapped inside a bricked well with heavy fog behind the character. The character should look adventurous yet academic to go along with the "newly became Colgate faculty member" theme. 
+
 
 ### Design
 
-<!-- The game has a very cartoony, **simplistic pixel art style** reminiscent of SNES-era games. The characters have **exaggerated, whimsical designs**, and the movement and animation is designed to feel **stretchy and cartoony**, with the art of the general game and setting intended to feel charming and lived in. -->
+The background should be very old looking brick wall/well as the observatory was built in 1950s. 
+I want the game to have 2D Japanese-English animation style to heighten the mysterious and puzzling nature of the situation.
 
 ---
 
@@ -124,19 +157,23 @@ COSC 481 students
 
 ### Music
 
-<!-- The main genres of Owlchemist are chiptune, orchestral, and EDM. These provide a nice energy and allow us to implement a wide variety of ideas. -->
+I want the background music to be whimsical & jazzy like that of Professor Layton. 
 
 ### Sound Effects
 
-<!-- Using ChipTone, we made simple yet charming NES-inspired sound effects. The SFX is meant to enhance the gameplay experience and overall feel without being intrusive or disruptive, which is why only some actions have sounds while others do not. -->
+I'm thinking of playing a dramatic sound effect if player from a platform more than a certain y distance. 
+I should also add "hooking" sound(sound that is similar to hammering a nail on a wall) and "reflected"(metalic clank) sound.
 
 ---
 
 ## Game Experience
 
+The player controls the Astrology Professor who cannot walk or jump because he is injured from the fall to the "foggy bottom" of the Observatory.
+However, he finds a hook & a rope. He throws the rope to climb back to the very top of the observatory.
+
 ### UI
 
-<!-- The UI fits with the tone of animation in the rest of the game by feeling very squishy, responsive, and juicy. UI elements have transitional animations and haptic feedback whenever interacted with. The game consists of a main and pause menu with adjustable settings. -->
+I want the UI to feel similar to that of `Professor Layton`, 2010's 2D animation style with the nuance of early 1900 attire. 
 
 ### Controls
 
@@ -175,3 +212,4 @@ Mouse Movement: decide the direction of the hook.
 ## References
 
 - [Owl Chemist GDD](https://docs.google.com/document/d/1_iPOdIFm9iiRNyMTM2WL3YTD0CGeOks3YKBjTsDJvd8/edit?tab=t.0#heading=h.k2hqrk99qjg6)
+- [Foggy Bottom Observatory](https://observatory.colgate.edu/foggybot/foggybot.html)
