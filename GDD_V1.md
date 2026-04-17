@@ -41,11 +41,15 @@
 
 ### Game Summary Pitch
 
-Have you ever been to Colgate University's Foggy Bottom Obervatory? 
+Have you ever been to Colgate University's Foggy Bottom Observatory? 
 
 Me neither. 
 
-What is this place, really? What is going on in there?? Why is it called Foggy Bottom??? A new Astrology Professor who has recently become a Colgate faculty goes out to find out the mystery of Fogggy Bottom Obervatory.
+What is this place, really? What is going on in there?? Why is it called Foggy Bottom??? 
+
+A newly hired Astronomy Professor arrives at Colgate, eager and naive. He hears whispers about the observatory - an old dome tucked away on the edge of campus, built in the 1950s. Students avoid it. Faculty don't talk about it. One night, curiosity wins. He walks in. The floor gives. He falls.
+
+He wakes up at the bottom - legs broken, surrounded by fog and old brick. The only way out is up. Luckily, there's a hook and a rope.
 
 To the foggy bottom...
 
@@ -59,7 +63,7 @@ _Professor Layton_ acts as an inspiration for the visual and musical elements. I
 
 **Getting Over It with Bennett Foddy**
 
-_Getting Over It_(GOI) is famous for its unintuivie and frustrating mechanics. It is also rather infamous for its level design that doesn't guarantee consistent progress. You can climb up to right before the finishline, but still can fall down to the very beginning of the game with just one misclick. The dry and passive agressive voice over when the player falls from a platform also adds to the fun of the game. 
+_Getting Over It_(GOI) is famous for its unintuivie and frustrating mechanics. It is also rather infamous for its level design that doesn't guarantee consistent progress. You can climb up to right before the finishline, but still can fall down to the very beginning of the game with just one misclick. The dry and passive agressive voice over when the player falls from a platform also adds to the fun of the game.
 
 ![Getting Over It in game](https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Getting_Over_It_with_Bennett_Foddy_screenshot.jpg/250px-Getting_Over_It_with_Bennett_Foddy_screenshot.jpg)
 
@@ -72,10 +76,11 @@ _Terraria_ has hooking mechanism that allows user to move between platforms usin
 
 ### Player Experience
 
-From the foggy bottom, the player uses a hook with rope to climb back to outside.
-Player can shoot the hook with a mouse left click and swing with mouse movement. 
-There are obsticles such as pivot points and reflective blocks(reflects hook).
-The play must use problem solving skills and quick reflexes to get use to this rather uncommon mechanics. 
+The player wakes up at the bottom of a dark, foggy shaft. No jumping. No walking. Just a hook and a rope.
+
+Left click to shoot. Swing with the mouse. Reel in to climb. Miss, and you fall - sometimes all the way back down. The hook is your only friend, and the observatory doesn't want you to leave.
+
+Reflective surfaces bounce your hook. Crumbling walls won't hold. Every throw is a gamble. It's frustrating, funny, and deeply satisfying when it clicks.
 
 
 ### Platform
@@ -102,8 +107,7 @@ COSC 481 students
 
 ### Gameplay Overview
 
-The player controls an Astronomy Professor who's injured in legs to climb out of 
-Foggy Bottom Observatory using a hook with a rope. 
+The player controls an Astronomy Professor, legs broken from the fall, who must climb out of the Foggy Bottom Observatory shaft using nothing but a hook and a rope. No walking. No jumping. Just throwing, swinging, and praying the brick holds.
 
 ### Theme Interpretation
 
@@ -143,13 +147,25 @@ Inability to walk or jump: the character is injured from the fall.
 
 ### Theme Interpretation
 
-The background should go along with the theme of "foggy bottom". I think the background should look like the chracter is trapped inside a bricked well with heavy fog behind the character. The character should look adventurous yet academic to go along with the "newly became Colgate faculty member" theme. 
+The player is trapped inside a bricked shaft with thick fog rolling behind them. The character should look adventurous yet academic - a professor who wasn't dressed for this. 
+
+The character sprite is an archaeologist(although he is an astronomy professor) with whip animations that naturally map to the hook/rope mechanic. Animations: idle, movement, roll, whip attack, whip AoE, shoot, damage, death.
 
 
 ### Design
 
-The background should be very old looking brick wall/well as the observatory was built in 1950s. 
-I want the game to have 2D Japanese-English animation style to heighten the mysterious and puzzling nature of the situation.
+Old, weathered brick - the observatory was built in the 1950s and it shows. 2D Japanese-English animation style to heighten the mysterious, puzzling nature of the situation.
+
+**Asset Candidates:**
+
+| Asset | Source | License |
+| --- | --- | --- |
+| 2D Pixel Art Archaeologist Sprites (character) | [Elthen - itch.io](https://elthen.itch.io/2d-pixel-art-archaeologist) | Free (commercial/non-commercial) |
+| Brick 2D Tileset 16x16 (walls/platforms) | [DeadlyEssence01 - OpenGameArt](https://opengameart.org/content/brick-2d-tileset-sidescrollerplatformer-16x16-de) | CC0 |
+| 2D Dungeon Wall 32px Brick Brown | [lukems-br - OpenGameArt](https://opengameart.org/content/2d-dungeon-wall-32px-db32-palette-brick-brown) | CC0 |
+| Fog Animation (40 frames, tileable) | [AntumDeluge - OpenGameArt](https://opengameart.org/content/fog-animation) | CC0 |
+| Dark Fantasy Scenery Sprites (chains, hooks) | [ETTiNGRiNDER - OpenGameArt](https://opengameart.org/content/misc-dark-fantasy-scenery-sprites) | CC0 |
+| 16x16 Weapon Sprites (grappling hook) | [Bennyboi_hack - OpenGameArt](https://opengameart.org/content/16x16-weapon-sprites-free) | CC0 |
 
 ---
 
@@ -157,19 +173,33 @@ I want the game to have 2D Japanese-English animation style to heighten the myst
 
 ### Music
 
-I want the background music to be whimsical & jazzy like that of Professor Layton. 
+Whimsical & jazzy, like Professor Layton. The music should feel like you're solving something - not like you're in danger. Light tension, not dread.
+
+**Music Candidates:**
+
+| Track | Source |
+| --- | --- |
+| "페리온 OST" | [Maple Story](https://maplestory.nexon.com/Media/Music#a) |
 
 ### Sound Effects
 
-I'm thinking of playing a dramatic sound effect if player from a platform more than a certain y distance. 
-I should also add "hooking" sound(sound that is similar to hammering a nail on a wall) and "reflected"(metalic clank) sound.
+Dramatic sound effect when the player falls more than a certain y distance. "Hooking" sound when the hook latches (nail-into-wall). Metallic clank when reflected off a surface.
+
+**SFX Candidates:**
+
+| Sound | Source | License |
+| --- | --- | --- |
+| Grappling Hook (launch) | [16bitstudios - Freesound](https://freesound.org/people/16bitstudios/sounds/541975/) | CC0 |
+| Metal Clank (hook impact / reflect) | [JustInvoke - Freesound](https://freesound.org/people/JustInvoke/sounds/446107/) | CC-BY 4.0 |
+| Rope Under Tension (swing) | [gear_clinkz - Freesound](https://freesound.org/people/gear_clinkz/sounds/547862/) | CC0 |
+| Whoosh (falling) | [Kinoton - Freesound](https://freesound.org/people/Kinoton/sounds/427823/) | CC0 |
+| Body Fall / Thud (dramatic fall) | [Breviceps - Freesound](https://freesound.org/people/Breviceps/sounds/447922/) | CC0 |
 
 ---
 
 ## Game Experience
 
-The player controls the Astrology Professor who cannot walk or jump because he is injured from the fall to the "foggy bottom" of the Observatory.
-However, he finds a hook & a rope. He throws the rope to climb back to the very top of the observatory.
+The professor wakes up at the bottom of the observatory shaft. Legs broken. Fog everywhere. He can't walk. He can't jump. But there's a hook and a rope lying next to him - and a long, long way up.
 
 ### UI
 
@@ -196,7 +226,7 @@ Mouse Movement: decide the direction of the hook.
 
 | # | Assignment | Type | Status | Finish By | Notes |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Initial Design Doc | doc | 🟡 | April 16, 10 PM | |
+| 1 | Initial Design Doc | doc | 🟢 | April 16, 10 PM | |
 | 2 | Code Commit V1 | dev | 🟡 | April 19, 10 PM | |
 | 3 | Final Code | dev | 🔴 |  Apirl 30, 5 PM| |
 | 4 | Final Design Doc | doc | 🔴 | May 4, 10 PM | |

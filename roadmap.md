@@ -1,5 +1,41 @@
 # Roadmap.md
 
+### Date: 04/17 3:00 PM - 10:30 AM
+
+**Goal**
+
+- Polish the GDD narrative
+- Find free digital assets (sprites, tile, fog, SFX, music)
+
+**Implementation**
+
+- Rewrote game summary pitch and player experience sections
+- Researched and recoorded possible assets for character, background tile, fog effects, hook/rope sprites, sound effects, and background music
+- Added asset & audio tables to GDD with sources and licenses
+
+*Technical Plan/Credit*:
+
+- N/A (documentation & asset research)
+
+*Content Credit*: 
+
+- [Elthen's 2D Pixel Art Archaeologist Sprites](https://elthen.itch.io/2d-pixel-art-archaeologist) - character sprite
+- [OpenGameArt](https://opengameart.org/) - sprites, tile, fog
+- [Freesound](https://freesound.org/) - SFX (grapple, clank, whoosh, rope tension, body fall)
+- [Maple Story](https://maplestory.nexon.com/Media/Music#a) - BGM
+
+**Commit message**
+
+- `doc(GDD): polished narrative, added asset & audio references`
+
+**Next/TO DO :**
+
+- Download and test the asset candidates
+- Implement character & rope mechanics
+- Start building the first vertical level
+
+---
+
 ### Date: 04/15 12:45 PM - 2:35 PM
 
 **Goal**
