@@ -1,5 +1,49 @@
 # Roadmap.md
 
+### Date: 04/19 7:30 AM - 4:40 PM
+
+![in game: start](./assets/ingame_start.png)
+![in game: hook](./assets/ingame_hook.png)
+
+**Goal**
+
+- Implement look & feel + Level 1 (V1 code commit)
+
+**Implementation**
+
+- Downloaded image & sound assets
+- Edited rope sound effect w/ Davinci Resolve (1 min sound effect ==> ~ 7 seconds)
+- Implemented hook & swing physics
+- Used sprites & textures
+- Implemented lerp camera
+- Implemented start screen, pause (P), debug (F3)
+- Implemented Level 1
+- Edited images with DaVinci Resolve Photo
+
+*Technical Plan/Credit*:
+
+- [DaVinci Resolve](https://www.blackmagicdesign.com/products/davinciresolve) — audio editing, image editing
+
+*Content Credit*:
+
+- [Swinging Physics for Player Movement](https://code.tutsplus.com/swinging-physics-for-player-movement-as-seen-in-spider-man-2-and-energy-hook--gamedev-8782t)
+- [Elthen's 2D Pixel Art Archaeologist Sprites](https://elthen.itch.io/2d-pixel-art-archaeologist) - character sprite
+- [OpenGameArt](https://opengameart.org/) - brick tiles, fog
+- [Freesound](https://freesound.org/) - SFX
+- [Maple Story](https://maplestory.nexon.com/Media/Music#a) - BGM
+
+**Commit message**
+
+- `feat(UI & L1): Code Commit V1`
+
+**Next/TO DO :**
+
+- Tune hook feel (gravity, swing force, damping)
+- Level 2
+- Ending sequence
+
+---
+
 ### Date: 04/17 3:00 PM - 10:30 AM
 
 **Goal**

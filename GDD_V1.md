@@ -91,7 +91,7 @@ The game is developed to be released on Mac & Windows PC with Pyray framwork.
 ### Software
 
 - VS Code
-- [DaVinci Resolve](https://www.blackmagicdesign.com/products/davinciresolve/photo) (For image editing)
+- [DaVinci Resolve](https://www.blackmagicdesign.com/products/davinciresolve) (audio editing, image editing)
 
 ### Genre
 
@@ -129,17 +129,17 @@ Inability to walk or jump: the character is injured from the fall.
 
 | Mechanic | Description |
 | --- | --- |
-| **Hook** | Left clicking shoots a hook from a player and the hook gets stick to a surface |
-| **Climb/Reel in** | Right clicking reels in the rope, ma |
-| **Swing** | After the hook gets stuck to a surface, you can move around the mouse to swing |
-| **Reflect** | There are surfaces where the hook gets reflected rather than getting hooked |
+| **Hook** | Left click shoots a hook toward the mouse cursor. It sticks to anchor points, bounces off walls. Left click again to release. |
+| **Reel in/out** | W / Up reels the rope in, S / Down lets it out |
+| **Swing** | A / D pumps the swing left and right while hooked. Pendulum physics with constraint projection. |
 
 ### Secondary Mechanics
 
 | Mechanic | Description |
 | --- | --- |
-| **Reflecting Obstacles** | There are surfaces where the hook gets reflected rather than getting hooked |
-| **Powerups** | Allows user to throw the hook further. | 
+| **Momentum** | Releasing the hook preserves the player's velocity - build swing speed to launch to the next anchor |
+| **Wall collision** | Player slides along walls while swinging or falling, cannot walk |
+| **Reflect** | There are surfaces where the hook gets reflected rather than getting hooked (L2) |
 
 ---
 
@@ -209,13 +209,22 @@ I want the UI to feel similar to that of `Professor Layton`, 2010's 2D animation
 
 **Mouse**
 
-Left Click: shoots/releaes the hook
+Left Click: shoot hook toward cursor / release hook when attached
 
-Hold Left + Release: shoot hook further
+Mouse Position: aim direction for hook
 
-Hold Right: reels in the hook
+**Keyboard**
 
-Mouse Movement: decide the direction of the hook. 
+W / Up: reel in rope
+
+S / Down: let out rope
+
+A / D: pump swing left / right
+
+P: pause (shows control reference)
+
+F3: debug overlay (FPS, position, velocity, hook state)
+
 
 
 ---
@@ -227,8 +236,8 @@ Mouse Movement: decide the direction of the hook.
 | # | Assignment | Type | Status | Finish By | Notes |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Initial Design Doc | doc | 🟢 | April 16, 10 PM | |
-| 2 | Code Commit V1 | dev | 🟡 | April 19, 10 PM | |
-| 3 | Final Code | dev | 🔴 |  Apirl 30, 5 PM| |
+| 2 | Code Commit V1 | dev | 🟢 | April 19, 10 PM | L1 playable with hook mechanics |
+| 3 | Final Code | dev | 🔴 |  April 30, 5 PM| L2, ending sequence |
 | 4 | Final Design Doc | doc | 🔴 | May 4, 10 PM | |
 | 5 | Demo Vid | doc | 🔴 | May 4, 10 PM | |
 | 6 | Presentation | other | 🔴 | May 6, ??:?? | |
