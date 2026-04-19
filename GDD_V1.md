@@ -164,8 +164,8 @@ Old, weathered brick - the observatory was built in the 1950s and it shows. 2D J
 | Brick 2D Tileset 16x16 (walls/platforms) | [DeadlyEssence01 - OpenGameArt](https://opengameart.org/content/brick-2d-tileset-sidescrollerplatformer-16x16-de) | CC0 |
 | 2D Dungeon Wall 32px Brick Brown | [lukems-br - OpenGameArt](https://opengameart.org/content/2d-dungeon-wall-32px-db32-palette-brick-brown) | CC0 |
 | Fog Animation (40 frames, tileable) | [AntumDeluge - OpenGameArt](https://opengameart.org/content/fog-animation) | CC0 |
-| Dark Fantasy Scenery Sprites (chains, hooks) | [ETTiNGRiNDER - OpenGameArt](https://opengameart.org/content/misc-dark-fantasy-scenery-sprites) | CC0 |
-| 16x16 Weapon Sprites (grappling hook) | [Bennyboi_hack - OpenGameArt](https://opengameart.org/content/16x16-weapon-sprites-free) | CC0 |
+<!-- | Dark Fantasy Scenery Sprites (chains, hooks) | [ETTiNGRiNDER - OpenGameArt](https://opengameart.org/content/misc-dark-fantasy-scenery-sprites) | CC0 | -->
+<!-- | 16x16 Weapon Sprites (grappling hook) | [Bennyboi_hack - OpenGameArt](https://opengameart.org/content/16x16-weapon-sprites-free) | CC0 | -->
 
 ---
 
