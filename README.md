@@ -40,3 +40,5 @@
 ```
 
 ## Citation
+
+[`.github` template](https://github.com/lobehub/lobehub/tree/canary/.github)
