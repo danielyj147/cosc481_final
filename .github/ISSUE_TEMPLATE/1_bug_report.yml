@@ -1,6 +1,6 @@
 name: '🐛 Bug Report'
 description: 'Report an bug'
-labels: ['unconfirm']
+labels: ['bug']
 type: Bug
 body:
   - type: dropdown
