@@ -9,7 +9,7 @@ from config import *  # noqa: F403
 ASSET_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets")
 
 # Collision box for the professor. Smaller than the sprite so he doesn't
-# look like he's hovering next to walls. 
+# look like he's hovering next to walls.
 PLAYER_HALF_W = 12
 PLAYER_HALF_H = 14
 
@@ -287,8 +287,8 @@ class Hook:
     For more: https://code.tutsplus.com/swinging-physics-for-player-movement-as-seen-in-spider-man-2-and-energy-hook--gamedev-8782t
     """
 
-    STATE_IDLE = 0 # not doing anything, waiting for left click
-    STATE_FLYING = 1 # hook is in the air traveling toward the cursor
+    STATE_IDLE = 0  # not doing anything, waiting for left click
+    STATE_FLYING = 1  # hook is in the air traveling toward the cursor
     STATE_ATTACHED = 2  # hooked onto an anchor, player swings as a pendulum
 
     def __init__(self) -> None:
@@ -460,7 +460,7 @@ class Hook:
 
 
 class Fog:
-    """ fog overlay animation. we draw two copies side by side for "infinite scroll"
+    """fog overlay animation. we draw two copies side by side for "infinite scroll"
     Drawn after end_mode_2d() so it floats in front of everything
     Fog overlay is fixed, so it moves along with camera.
     Workaround to not have bunch of copies of fog animation vertically.
@@ -526,12 +526,24 @@ class Game:
         self.char_texture: Texture | None = None
         self.fog_texture: Texture | None = None
 
+        # Background
+        self.stars = []
+
     def startup(self) -> None:
         self.screen = GameScreen.PLAYING
         self.player.setup(self.spawn[0], self.spawn[1])
         self.hook.setup()
         self.cam.setup(self.spawn[0], self.spawn[1])
-
+        self.stars = [
+            [
+                Vector2(
+                    random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGHT)
+                ),  # center
+                random.randint(0, 2),  # radius
+                Color(255, 255, 255, random.randint(0, 255)),  # alpha
+            ]
+            for _ in range(100)
+        ]
         play_music_stream(game_musics[MusicType.BACKGROUND])
 
     def load_textures(self) -> None:
@@ -669,7 +681,7 @@ class Game:
             self._draw_start_screen()
             return
 
-        self._draw_gradient_background()
+        self._draw_background()
 
         self.cam.begin()
         self.level.draw()
@@ -692,18 +704,13 @@ class Game:
             text, SCREEN_WIDTH // 2 - measure_text(text, size) // 2, y, size, color
         )
 
-    def _draw_gradient_background(self) -> None:
-        draw_rectangle_gradient_v(
-            0,
-            0,
-            SCREEN_WIDTH,
-            SCREEN_HEIGHT,
-            Color(*BG_COLOR_TOP, 255),
-            Color(*BG_COLOR_BOTTOM, 255),
-        )
+    def _draw_background(self) -> None:
+
+        for center, radius, color in self.stars:
+            draw_circle_v(center, radius, color)
 
     def _draw_start_screen(self) -> None:
-        self._draw_gradient_background()
+        self._draw_background()
         self.fog.draw()
 
         self._draw_centered(TITLE, SCREEN_HEIGHT // 3, 40, Color(220, 200, 160, 255))
