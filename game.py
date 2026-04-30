@@ -1,7 +1,7 @@
 import math
 import os
 from enum import Enum
-
+import random
 from pyray import *  # pyright: ignore[reportWildcardImportFromLibrary]
 from config import *  # noqa: F403
 
@@ -68,7 +68,7 @@ def collide_walls(pos_x, pos_y, vel_x, vel_y, level):
 
         for r in range(row_top, row_bot + 1):
             for c in range(col_left, col_right + 1):
-                if level.is_wall(c, r):
+                if level.is_solid(c, r):
                     tile_x = c * TILE_SIZE
                     tile_y = r * TILE_SIZE
 
@@ -132,6 +132,18 @@ class Level:
                         self.brick_texture, src, dst, Vector2(0, 0), 0.0, WHITE
                     )
 
+                elif tile == TILE_REFLECT:
+                    draw_rectangle(x, y, TILE_SIZE, TILE_SIZE, Color(*REFLECT_COLOR))
+                    # 1px highlight on top/left, shadow on bottom/right (bevel)
+                    draw_rectangle(x, y, TILE_SIZE, 2, Color(*REFLECT_HIGHLIGHT))
+                    draw_rectangle(x, y, 2, TILE_SIZE, Color(*REFLECT_HIGHLIGHT))
+                    draw_rectangle(
+                        x, y + TILE_SIZE - 2, TILE_SIZE, 2, Color(*REFLECT_SHADOW)
+                    )
+                    draw_rectangle(
+                        x + TILE_SIZE - 2, y, 2, TILE_SIZE, Color(*REFLECT_SHADOW)
+                    )
+
                 elif tile == TILE_ANCHOR:
                     cx = x + TILE_SIZE // 2
                     cy = y + TILE_SIZE // 2
@@ -149,10 +161,27 @@ class Level:
                         self.chest_texture, src, dst, Vector2(0, 0), 0.0, WHITE
                     )
 
+    def _in_bounds(self, col, row) -> bool:
+        return 0 <= col < self.cols and 0 <= row < self.rows
+
     def is_wall(self, col, row) -> bool:
+        if not self._in_bounds(col, row):
+            return True
         return self.tilemap[row][col] == TILE_WALL
 
+    def is_reflect(self, col, row) -> bool:
+        if not self._in_bounds(col, row):
+            return False
+        return self.tilemap[row][col] == TILE_REFLECT
+
+    def is_solid(self, col, row) -> bool:
+        if not self._in_bounds(col, row):
+            return True
+        return self.tilemap[row][col] in (TILE_WALL, TILE_REFLECT)
+
     def is_hookable(self, col, row) -> bool:
+        if not self._in_bounds(col, row):
+            return False
         return self.tilemap[row][col] == TILE_ANCHOR
 
     def get_spawn(self) -> tuple[float, float]:
@@ -231,27 +260,48 @@ class Player:
     def load_texture(self, texture) -> None:
         self.sprite_texture = texture
 
-    def update(self, dt, level, hooked) -> None:
+    def update(self, dt, level, hooked, dev_fly=False) -> None:
         # When not hooked, the professor is just a falling object.
         if not hooked:
-            self.vel_y += GRAVITY * dt
-            if self.vel_y > 1200:
-                self.vel_y = 1200
+            if dev_fly:
+                # Inspired by Edgar's dev mode / GOD mode
+                speed = 320.0
+                self.vel_x = 0.0
+                self.vel_y = 0.0
+                if is_key_down(KeyboardKey.KEY_A) or is_key_down(KeyboardKey.KEY_LEFT):
+                    self.vel_x = -speed
+                if is_key_down(KeyboardKey.KEY_D) or is_key_down(KeyboardKey.KEY_RIGHT):
+                    self.vel_x = speed
+                if is_key_down(KeyboardKey.KEY_W) or is_key_down(KeyboardKey.KEY_UP):
+                    self.vel_y = -speed
+                if is_key_down(KeyboardKey.KEY_S) or is_key_down(KeyboardKey.KEY_DOWN):
+                    self.vel_y = speed
+                if self.vel_x > 0:
+                    self.facing_right = True
+                elif self.vel_x < 0:
+                    self.facing_right = False
+                self.pos_x += self.vel_x * dt
+                self.pos_y += self.vel_y * dt
+                self.on_ground = False
+            else:
+                self.vel_y += GRAVITY * dt
+                if self.vel_y > 1200:
+                    self.vel_y = 1200
 
-            # Without this the professor slides forever
-            if self.on_ground:
-                self.vel_x *= 0.85
+                # Without this the professor slides forever
+                if self.on_ground:
+                    self.vel_x *= 0.85
 
-            self.pos_x += self.vel_x * dt
-            self.pos_y += self.vel_y * dt
+                self.pos_x += self.vel_x * dt
+                self.pos_y += self.vel_y * dt
 
-            self.on_ground = False
-            self.pos_x, self.pos_y, self.vel_x, self.vel_y, self.on_ground = (
-                collide_walls(self.pos_x, self.pos_y, self.vel_x, self.vel_y, level)
-            )
+                self.on_ground = False
+                self.pos_x, self.pos_y, self.vel_x, self.vel_y, self.on_ground = (
+                    collide_walls(self.pos_x, self.pos_y, self.vel_x, self.vel_y, level)
+                )
 
-            if self.on_ground and abs(self.vel_x) < 5:
-                self.vel_x = 0
+                if self.on_ground and abs(self.vel_x) < 5:
+                    self.vel_x = 0
 
         self.anim_timer += dt
         if self.anim_timer >= 1.0 / ANIM_FPS:
@@ -332,6 +382,8 @@ class Hook:
             self._update_attached(dt, level, player)
 
     def _update_flying(self, dt, level, player) -> None:
+        prev_x = self.pos_x
+        prev_y = self.pos_y
         self.pos_x += self.vel_x * dt
         self.pos_y += self.vel_y * dt
 
@@ -356,7 +408,38 @@ class Hook:
             self.state = Hook.STATE_ATTACHED
             return
 
-        # Hit a wall = hook bounces off. TODO: reflect mechanic for L2
+        # Reflective surface
+        if level.is_reflect(col, row):
+            prev_col = int(prev_x // TILE_SIZE)
+            prev_row = int(prev_y // TILE_SIZE)
+            crossed_x = prev_col != col
+            crossed_y = prev_row != row
+            if crossed_x and crossed_y:
+                tile_x = col * TILE_SIZE
+                tile_y = row * TILE_SIZE
+                pen_x = (
+                    self.pos_x - tile_x
+                    if self.vel_x > 0
+                    else tile_x + TILE_SIZE - self.pos_x
+                )
+                pen_y = (
+                    self.pos_y - tile_y
+                    if self.vel_y > 0
+                    else tile_y + TILE_SIZE - self.pos_y
+                )
+                if pen_x < pen_y:
+                    self.vel_x = -self.vel_x
+                else:
+                    self.vel_y = -self.vel_y
+            elif crossed_x:
+                self.vel_x = -self.vel_x
+            elif crossed_y:
+                self.vel_y = -self.vel_y
+            self.pos_x = prev_x
+            self.pos_y = prev_y
+            return
+
+        # Hit a wall = hook drops.
         if level.is_wall(col, row):
             self.state = Hook.STATE_IDLE
 
@@ -460,10 +543,9 @@ class Hook:
 
 
 class Fog:
-    """fog overlay animation. we draw two copies side by side for "infinite scroll"
-    Drawn after end_mode_2d() so it floats in front of everything
-    Fog overlay is fixed, so it moves along with camera.
-    Workaround to not have bunch of copies of fog animation vertically.
+    """Fog overlay drawn screen-space. Texture uses MIRROR_REPEAT wrap so we
+    can scroll the source rect indefinitely without a visible seam — raylib
+    flips the sample direction at the boundary, so edge values always match.
     """
 
     def __init__(self) -> None:
@@ -475,34 +557,19 @@ class Fog:
 
     def update(self, dt) -> None:
         self.scroll_x += FOG_SCROLL_SPEED * dt
-        if self.texture and self.scroll_x >= self.texture.width:
-            self.scroll_x -= self.texture.width
+        if self.texture:
+            cycle = self.texture.width * 2  # mirror cycle
+            if self.scroll_x >= cycle:
+                self.scroll_x -= cycle
 
     def draw(self) -> None:
         if not self.texture:
             return
-        tw = self.texture.width
         th = self.texture.height
         tint = Color(255, 255, 255, FOG_ALPHA)
-
-        offset = int(self.scroll_x) % tw
-        x1 = -offset
-        x2 = -offset + tw
-
-        src = Rectangle(0, 0, tw, th)
-        y_pos = SCREEN_HEIGHT - th
-        draw_texture_pro(
-            self.texture, src, Rectangle(x1, y_pos, tw, th), Vector2(0, 0), 0.0, tint
-        )
-        if x2 < SCREEN_WIDTH:
-            draw_texture_pro(
-                self.texture,
-                src,
-                Rectangle(x2, y_pos, tw, th),
-                Vector2(0, 0),
-                0.0,
-                tint,
-            )
+        src = Rectangle(self.scroll_x, 0, SCREEN_WIDTH, th)
+        dst = Rectangle(0, SCREEN_HEIGHT - th, SCREEN_WIDTH, th)
+        draw_texture_pro(self.texture, src, dst, Vector2(0, 0), 0.0, tint)
 
 
 class Game:
@@ -510,7 +577,8 @@ class Game:
         self.screen: GameScreen = GameScreen.START
         self.debug: bool = False
 
-        self.level: Level = Level(L1_LEVEL)
+        self.current_level: int = 0
+        self.level: Level = Level(LEVELS[self.current_level])
         self.cam: GameCamera = GameCamera(
             self.level.world_width, self.level.world_height
         )
@@ -535,16 +603,31 @@ class Game:
         self.hook.setup()
         self.cam.setup(self.spawn[0], self.spawn[1])
         self.stars = [
-            [
+            (
                 Vector2(
                     random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGHT)
-                ),  # center
+                ),
                 random.randint(0, 2),  # radius
-                Color(255, 255, 255, random.randint(0, 255)),  # alpha
-            ]
+                random.randint(80, 255),  # base alpha
+                random.uniform(0, math.tau),  # phase
+                random.uniform(1.5, 3.5),  # twinkle speed
+            )
             for _ in range(100)
         ]
         play_music_stream(game_musics[MusicType.BACKGROUND])
+
+    def _load_level(self, idx: int) -> None:
+        if idx < 0 or idx >= len(LEVELS):
+            return
+        self.current_level = idx
+        self.level = Level(LEVELS[idx])
+        self.level.load_texture(self.brick_texture, self.chest_texture)
+        self.cam = GameCamera(self.level.world_width, self.level.world_height)
+        self.spawn = self.level.get_spawn()
+        self.player.setup(self.spawn[0], self.spawn[1])
+        self.hook.setup()
+        self.cam.setup(self.spawn[0], self.spawn[1])
+        self.screen = GameScreen.PLAYING
 
     def load_textures(self) -> None:
         self.brick_texture = load_texture(
@@ -554,7 +637,17 @@ class Game:
         self.char_texture = load_texture(
             os.path.join(ASSET_DIR, "img", "character_sprite.png")
         )
-        self.fog_texture = load_texture(os.path.join(ASSET_DIR, "img", "fog.png"))
+
+        # generate fog
+        # Resource Provided by Professor Elodie: https://www.raylib.com/examples/textures/loader.html?name=textures_image_generation
+        fog_w = SCREEN_WIDTH * 2
+        fog_h = SCREEN_HEIGHT
+        mask = gen_image_color(fog_w, fog_h, Color(120, 120, 120, 255))
+        noise_img = gen_image_perlin_noise(fog_w, fog_h, 0, 0, 4)
+        image_alpha_mask(noise_img, mask)
+        self.fog_texture = load_texture_from_image(noise_img)
+        unload_image(noise_img)
+        set_texture_wrap(self.fog_texture, TextureWrap.TEXTURE_WRAP_MIRROR_REPEAT)
 
         self.level.load_texture(self.brick_texture, self.chest_texture)
         self.player.load_texture(self.char_texture)
@@ -579,6 +672,14 @@ class Game:
                 self.startup()
             return
 
+        # Level switching (1 = L1, 2 = L2). Available in any post-start state.
+        if is_key_pressed(KeyboardKey.KEY_ONE):
+            self._load_level(0)
+            return
+        if is_key_pressed(KeyboardKey.KEY_TWO):
+            self._load_level(1)
+            return
+
         if self.screen == GameScreen.PAUSED:
             if is_key_pressed(KeyboardKey.KEY_P):
                 self.screen = GameScreen.PLAYING
@@ -586,7 +687,8 @@ class Game:
 
         if self.screen == GameScreen.COMPLETE:
             if is_key_pressed(KeyboardKey.KEY_R):
-                self.startup()
+                self._load_level(0)
+                self.screen = GameScreen.START
             return
 
         # Play
@@ -604,14 +706,17 @@ class Game:
         hooked = self.hook.state == Hook.STATE_ATTACHED
 
         self.hook.update(dt, self.level, self.player)
-        self.player.update(dt, self.level, hooked)
+        self.player.update(dt, self.level, hooked, dev_fly=self.debug)
 
         self._handle_sfx(prev_hook_state, prev_vel_y)
 
         self.cam.update(self.player.pos_x, self.player.pos_y)
 
         if self._check_level_complete():
-            self.screen = GameScreen.COMPLETE
+            if self.current_level + 1 < len(LEVELS):
+                self._load_level(self.current_level + 1)
+            else:
+                self.screen = GameScreen.COMPLETE
 
     def _handle_hook_input(self) -> None:
         # Left click shoots when idle, releases when attached.
@@ -705,9 +810,19 @@ class Game:
         )
 
     def _draw_background(self) -> None:
+        t = get_time()
+        for center, radius, base_alpha, phase, speed in self.stars:
+            a = int(base_alpha * (0.5 + 0.5 * math.sin(t * speed + phase)))
+            draw_circle_v(center, radius, Color(255, 255, 255, a))
 
-        for center, radius, color in self.stars:
-            draw_circle_v(center, radius, color)
+        # Moon
+        draw_circle_v((75, 75), 50, Color(255, 255, 255, 200))
+        draw_circle_v((65, 75), 50, Color(0, 0, 0, 50))
+        draw_circle_v((65, 50), 5, Color(0, 0, 0, 50))
+        draw_circle_v((45, 90), 4, Color(0, 0, 0, 50))
+        draw_circle_v((80, 75), 3, Color(0, 0, 0, 50))
+        draw_circle_v((87, 90), 7, Color(0, 0, 0, 50))
+        draw_circle_v((100, 60), 4, Color(0, 0, 0, 50))
 
     def _draw_start_screen(self) -> None:
         self._draw_background()
@@ -729,6 +844,12 @@ class Game:
             16,
             Color(140, 130, 110, 180),
         )
+        self._draw_centered(
+            "Press P in-game for controls.",
+            SCREEN_HEIGHT // 3 + 160,
+            16,
+            Color(160, 150, 130, 200),
+        )
 
     def _draw_pause_overlay(self) -> None:
         draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Color(0, 0, 0, 160))
@@ -742,7 +863,8 @@ class Game:
             "A / D       -  Pump swing",
             "Mouse       -  Aim hook",
             "P           -  Pause / Resume",
-            "F3          -  Debug overlay",
+            "1 / 2       -  Switch levels",
+            "F3          -  Debug overlay (fly mode)",
         ]
         y = 160
         for line in controls:
@@ -761,7 +883,10 @@ class Game:
             Color(240, 220, 140, 255),
         )
         self._draw_centered(
-            "Press R to restart", SCREEN_HEIGHT // 3 + 50, 20, Color(180, 170, 140, 200)
+            "Press R to return to title",
+            SCREEN_HEIGHT // 3 + 50,
+            20,
+            Color(180, 170, 140, 200),
         )
 
     def _draw_debug(self) -> None:
