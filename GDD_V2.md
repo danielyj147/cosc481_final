@@ -5,8 +5,6 @@ by Daniel Jeong
 - GitHub Profile: https://github.com/danielyj147 
 - Repo Link: https://github.com/danielyj147/cosc481_final
 
-> Add classmate credit 
-
 [Recommanded Soundtrack](https://www.youtube.com/watch?v=8PydbXdAx84&list=RD8PydbXdAx84&start_radio=1)
 
 ![Foggy Bottom Observatory](https://observatory.colgate.edu/foggybot/foggybot.gif)

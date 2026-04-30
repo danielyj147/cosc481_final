@@ -1,5 +1,70 @@
 # Roadmap.md
 
+### Date: 4/27 - 04/30
+
+**Goal**
+
+- Level 2
+- Perline noise
+- Reflective surface
+
+**Implementation**
+
+- Implemented L2 + reflective block
+- Redesigned L1
+- Implemented pulsing stars(twinkling stars)
+- Implemented moon
+- Implemented God mode(fly mode)
+- Adjusted finish line(difficulty adjustment)
+- Replaced fog image with perlin noise
+
+*Technical Plan/Credit*:
+
+- [Raylib Perlin Noise](https://www.raylib.com/examples/textures/loader.html?name=textures_image_generation)
+- [Raylib alpha mask](https://www.raylib.com/examples/textures/loader.html?name=textures_image_channel)
+- Dev Mode(God mode): inspiration from `Edgar Suritis` (esuritis@colgate.edu)
+
+*Content Credit*:
+
+- N/A
+
+**Commit message**
+
+- `feat(L2, dev mode, UI): implemented L2; implemented devmod; added moon, changed fog to perlin noise`
+
+**Next/TO DO :**
+
+- Add observatory dorm
+- Change brick color to green
+
+---
+
+### Date: 04/22
+
+> Added the entry retroactively
+
+**Goal**
+
+- Add github issue templates
+- Change backgroun from gradient to stars
+
+**Goal**
+
+- Added bug fix & feature request templates
+- Implemented starry background
+
+*Content Credit*:
+
+- [Lobe Hub Issue Template](https://github.com/lobehub/lobehub/tree/canary/.github/ISSUE_TEMPLATE)
+
+**Commit Message**
+
+- `chore(.github): ...`
+- `doc(GDD_V2): added GDD_V2 template`
+- `feat(background): changed background from ...`
+
+---
+
 ### Date: 04/19 7:30 AM - 4:40 PM
 
 ![in game: start](./assets/ingame_start.png)
