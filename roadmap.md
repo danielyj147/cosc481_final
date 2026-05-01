@@ -1,5 +1,42 @@
 # Roadmap.md
 
+### Date: 04/30 - 05/01
+
+**Goal**
+
+- Add the observatory dome
+- Add exit anchor
+- Edit l1 escape
+- Change bricks to green(alpha masking)
+
+**Implementation**
+
+- Added dome
+- Added escape anchor with halo for the astronomy theme
+- Removed "doors"/chest and uses halo for l1 exit
+- Changed brick color to green w/ alpha masking(used it for fog overlay before too.)
+- Change dev mode key to E(more intuitive). "Press P" now more visible
+- Refactored collision checking logics.
+
+*Technical Plan/Credit*:
+
+- N/A (iteration on existing systems)
+
+*Content Credit*:
+
+- N/A
+
+**Commit message**
+
+- `feat(L2, L1): observatory dome + escape anchor; halo exit`
+
+**Next/TO DO :**
+
+- GDD 
+- Video
+
+---
+
 ### Date: 4/27 - 04/30
 
 **Goal**

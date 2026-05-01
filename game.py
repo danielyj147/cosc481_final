@@ -109,11 +109,9 @@ class Level:
         self.world_width = self.cols * TILE_SIZE
         self.world_height = self.rows * TILE_SIZE
         self.brick_texture: Texture | None = None
-        self.chest_texture: Texture | None = None
 
-    def load_texture(self, brick_texture, chest_texture) -> None:
+    def load_texture(self, brick_texture) -> None:
         self.brick_texture = brick_texture
-        self.chest_texture = chest_texture
 
     def draw(self) -> None:
         if self.brick_texture is None:
@@ -125,6 +123,8 @@ class Level:
                 y = r * TILE_SIZE
 
                 if tile == TILE_WALL:
+                    # alpha-mask
+                    draw_rectangle(x, y, TILE_SIZE, TILE_SIZE, Color(25, 45, 35, 255))
                     tile_index = (c + r) % BRICK_TILE_COUNT
                     src = Rectangle(tile_index * TILE_SIZE, 0, TILE_SIZE, TILE_SIZE)
                     dst = Rectangle(x, y, TILE_SIZE, TILE_SIZE)
@@ -152,14 +152,13 @@ class Level:
                         cx, cy, ANCHOR_RADIUS + 1, Color(120, 110, 80, 255)
                     )
 
-                elif tile == TILE_CHEST and self.chest_texture:
-                    src = Rectangle(
-                        0, 0, self.chest_texture.width, self.chest_texture.height
-                    )
-                    dst = Rectangle(x, y, TILE_SIZE, TILE_SIZE)
-                    draw_texture_pro(
-                        self.chest_texture, src, dst, Vector2(0, 0), 0.0, WHITE
-                    )
+                elif tile == TILE_ENTRANCE:
+                    # the glow: level 1 exit / level 2 enterance
+                    cx_t = x + TILE_SIZE // 2
+                    cy_t = y + TILE_SIZE // 2
+                    draw_circle(cx_t, cy_t, 30, Color(255, 245, 220, 30))
+                    draw_circle(cx_t, cy_t, 24, Color(255, 245, 220, 70))
+                    draw_circle(cx_t, cy_t, 20, Color(255, 245, 220, 110))
 
     def _in_bounds(self, col, row) -> bool:
         return 0 <= col < self.cols and 0 <= row < self.rows
@@ -590,12 +589,14 @@ class Game:
 
         # Textures (loaded after window init)
         self.brick_texture: Texture | None = None
-        self.chest_texture: Texture | None = None
         self.char_texture: Texture | None = None
         self.fog_texture: Texture | None = None
 
         # Background
         self.stars = []
+
+        # Escape anchor
+        self.escape_anchor: Vector2 | None = None
 
     def startup(self) -> None:
         self.screen = GameScreen.PLAYING
@@ -621,19 +622,36 @@ class Game:
             return
         self.current_level = idx
         self.level = Level(LEVELS[idx])
-        self.level.load_texture(self.brick_texture, self.chest_texture)
+        self.level.load_texture(self.brick_texture)
         self.cam = GameCamera(self.level.world_width, self.level.world_height)
         self.spawn = self.level.get_spawn()
         self.player.setup(self.spawn[0], self.spawn[1])
         self.hook.setup()
         self.cam.setup(self.spawn[0], self.spawn[1])
+        if idx == 1:  # dome & escape anchor for level 2
+            cx = self.level.world_width // 2
+            base_y = self._dome_base_y()
+            band_h = 6
+            radius = self.level.world_width // 2
+            self.escape_anchor = Vector2(cx, base_y - band_h - radius - 14)
+        else:
+            self.escape_anchor = None
         self.screen = GameScreen.PLAYING
 
     def load_textures(self) -> None:
-        self.brick_texture = load_texture(
+        brick_img = load_image(
             os.path.join(ASSET_DIR, "img", "brown_bricks_sprite.png")
         )
-        self.chest_texture = load_texture(os.path.join(ASSET_DIR, "img", "chest.png"))
+        # alpha masking to make bricks green
+        image_format(brick_img, PixelFormat.PIXELFORMAT_UNCOMPRESSED_GRAYSCALE)
+        green_img = gen_image_color(
+            brick_img.width, brick_img.height, Color(*BRICK_COLOR)
+        )
+        image_alpha_mask(green_img, brick_img)
+        self.brick_texture = load_texture_from_image(green_img)
+        unload_image(brick_img)
+        unload_image(green_img)
+
         self.char_texture = load_texture(
             os.path.join(ASSET_DIR, "img", "character_sprite.png")
         )
@@ -649,7 +667,7 @@ class Game:
         unload_image(noise_img)
         set_texture_wrap(self.fog_texture, TextureWrap.TEXTURE_WRAP_MIRROR_REPEAT)
 
-        self.level.load_texture(self.brick_texture, self.chest_texture)
+        self.level.load_texture(self.brick_texture)
         self.player.load_texture(self.char_texture)
         self.fog.load_texture(self.fog_texture)
 
@@ -696,7 +714,7 @@ class Game:
             self.screen = GameScreen.PAUSED
             return
 
-        if is_key_pressed(KeyboardKey.KEY_F3):
+        if is_key_pressed(KeyboardKey.KEY_E):
             self.debug = not self.debug
 
         self._handle_hook_input()
@@ -706,6 +724,7 @@ class Game:
         hooked = self.hook.state == Hook.STATE_ATTACHED
 
         self.hook.update(dt, self.level, self.player)
+        self._check_escape_attach()
         self.player.update(dt, self.level, hooked, dev_fly=self.debug)
 
         self._handle_sfx(prev_hook_state, prev_vel_y)
@@ -768,17 +787,25 @@ class Game:
         if self.player.on_ground and prev_vel_y > FALL_SPEED_THRESHOLD:
             play_sound(game_sounds[SoundType.THUD])
 
+    def _check_escape_attach(self) -> None:
+        a = self.escape_anchor
+        if a is None or self.hook.state != Hook.STATE_FLYING:
+            return
+        dx = self.hook.pos_x - a.x
+        dy = self.hook.pos_y - a.y
+        if dx * dx + dy * dy >= 16 * 16:  # checking distnace
+            return
+        pdx = self.player.pos_x - a.x
+        pdy = self.player.pos_y - a.y
+        self.hook.anchor_x, self.hook.anchor_y = a.x, a.y
+        self.hook.rope_length = math.sqrt(pdx * pdx + pdy * pdy)
+        self.hook.state = Hook.STATE_ATTACHED
+
     def _check_level_complete(self) -> bool:
-        # Check 3x3 neighborhood so you don't have to land pixel-perfect on the chest.
-        # Nobody wants to swing past the finish line because they were 2px off.
         col = int(self.player.pos_x // TILE_SIZE)
         row = int(self.player.pos_y // TILE_SIZE)
-        for dr in range(-1, 2):
-            for dc in range(-1, 2):
-                r, c = row + dr, col + dc
-                if 0 <= r < self.level.rows and 0 <= c < self.level.cols:
-                    if self.level.tilemap[r][c] == TILE_CHEST:
-                        return True
+        if self.level.tilemap[row][col] == TILE_ENTRANCE:
+            return True
         return False
 
     def draw(self) -> None:
@@ -789,6 +816,8 @@ class Game:
         self._draw_background()
 
         self.cam.begin()
+        self._draw_dome()
+        self._draw_escape_anchor()
         self.level.draw()
         self.hook.draw(self.player)
         self.player.draw()
@@ -845,10 +874,10 @@ class Game:
             Color(140, 130, 110, 180),
         )
         self._draw_centered(
-            "Press P in-game for controls.",
-            SCREEN_HEIGHT // 3 + 160,
-            16,
-            Color(160, 150, 130, 200),
+            "Press  P for controls",
+            SCREEN_HEIGHT // 3 + 170,
+            22,
+            Color(240, 220, 160, 255),
         )
 
     def _draw_pause_overlay(self) -> None:
@@ -864,7 +893,7 @@ class Game:
             "Mouse       -  Aim hook",
             "P           -  Pause / Resume",
             "1 / 2       -  Switch levels",
-            "F3          -  Debug overlay (fly mode)",
+            "E           -  Debug overlay (fly mode)",
         ]
         y = 160
         for line in controls:
@@ -873,6 +902,103 @@ class Game:
                 line, SCREEN_WIDTH // 2 - lw // 2, y, 18, Color(200, 190, 160, 220)
             )
             y += 26
+
+    def _dome_base_y(self) -> int:
+        """World y of the topmost row containing walls, so the dome rests on them."""
+        for r in range(self.level.rows):
+            for c in range(self.level.cols):
+                if self.level.tilemap[r][c] in (TILE_WALL, TILE_REFLECT):
+                    return r * TILE_SIZE
+        return 0
+
+    def _draw_dome(self) -> None:
+        # Observatory dome
+        if self.current_level != 1:
+            return
+        cx = self.level.world_width // 2
+        base_y = self._dome_base_y()
+        radius = self.level.world_width // 2
+
+        # Base
+        band_h = 6
+        draw_rectangle(
+            cx - radius,
+            base_y - band_h,
+            radius * 2,
+            band_h,
+            Color(140, 140, 155, 255),
+        )
+        draw_rectangle(
+            cx - radius,
+            base_y - band_h,
+            radius * 2,
+            1,
+            Color(225, 225, 240, 255),
+        )
+
+        # silver dome
+        dome_y = base_y - band_h
+        dome_center = Vector2(cx, dome_y)
+        draw_circle_sector(dome_center, radius, 180, 360, 64, Color(*DOME_COLOR))
+
+        # Right shadow
+        draw_circle_sector(dome_center, radius, 290, 360, 32, Color(110, 110, 125, 70))
+        # Left side light
+        draw_circle_sector(
+            Vector2(cx - 8, dome_y - 6),
+            radius - 14,
+            200,
+            250,
+            24,
+            Color(230, 230, 245, 80),
+        )
+
+        # Outline
+        draw_circle_sector_lines(
+            dome_center, radius, 180, 360, 64, Color(120, 120, 135, 220)
+        )
+
+        # Vertical slit
+        slit_w = 10
+        slit_h = radius
+        draw_rectangle(
+            cx - slit_w // 2,
+            dome_y - slit_h,
+            slit_w,
+            slit_h,
+            Color(15, 15, 25, 235),
+        )
+        draw_rectangle(
+            cx - slit_w // 2 - 1,
+            dome_y - slit_h,
+            1,
+            slit_h,
+            Color(200, 200, 215, 220),
+        )
+        draw_rectangle(
+            cx + slit_w // 2,
+            dome_y - slit_h,
+            1,
+            slit_h,
+            Color(200, 200, 215, 220),
+        )
+
+        # spire
+        spire_h = 12
+        spire_y = dome_y - radius - spire_h
+        draw_rectangle(cx - 1, spire_y, 2, spire_h, Color(110, 110, 125, 255))
+        draw_circle(cx, spire_y, 3, Color(200, 200, 215, 255))
+
+    def _draw_escape_anchor(self) -> None:
+        # escape anchor + halo
+        if self.escape_anchor is None:
+            return
+        cx = int(self.escape_anchor.x)
+        cy = int(self.escape_anchor.y)
+        draw_circle(cx, cy, 14, Color(255, 245, 200, 60))
+        draw_circle(cx, cy, 10, Color(255, 245, 200, 110))
+        draw_circle(cx, cy, ANCHOR_RADIUS, Color(*ANCHOR_COLOR))
+        draw_circle_lines(cx, cy, ANCHOR_RADIUS + 1, Color(120, 110, 80, 255))
 
     def _draw_complete_screen(self) -> None:
         draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Color(0, 0, 0, 180))
@@ -915,8 +1041,6 @@ class Game:
     def shutdown(self) -> None:
         if self.brick_texture:
             unload_texture(self.brick_texture)
-        if self.chest_texture:
-            unload_texture(self.chest_texture)
         if self.char_texture:
             unload_texture(self.char_texture)
         if self.fog_texture:

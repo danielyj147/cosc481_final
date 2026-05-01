@@ -9,7 +9,7 @@ TILE_SIZE = 32
 TILE_AIR = 0
 TILE_WALL = 1
 TILE_ANCHOR = 2
-TILE_CHEST = 3
+TILE_ENTRANCE = 3
 TILE_SPAWN = 4
 TILE_REFLECT = 5
 
@@ -29,16 +29,8 @@ PLAYER_DRAW_H = 48
 SPRITE_FRAME_W = 64
 SPRITE_FRAME_H = 32
 SPRITE_COLS = 8
-SPRITE_ROWS = 7
 
 ANIM_IDLE = 0
-ANIM_MOVE = 1
-ANIM_ROLL = 2
-ANIM_WHIP = 3
-ANIM_WHIP_AOE = 4
-ANIM_SHOOT = 5
-ANIM_DAMAGE = 6
-
 ANIM_FPS = 10
 
 # Fog
@@ -48,12 +40,12 @@ FOG_ALPHA = 140
 # Camera
 CAMERA_LERP = 0.08
 
-# Background gradient
-BG_COLOR_BOTTOM = (10, 8, 15)
-BG_COLOR_TOP = (50, 45, 70)
-
-# Brick sprite
+# Brick sprite (Foggy Bottom Observatory uses green bricks)
 BRICK_TILE_COUNT = 8
+BRICK_COLOR = (60, 90, 75, 255)
+
+# Observatory dome (silver half-circle drawn above the level top)
+DOME_COLOR = (180, 180, 195, 255)
 
 # Anchor visual
 ANCHOR_RADIUS = 6
@@ -73,9 +65,20 @@ FALL_SPEED_THRESHOLD = 400.0
 
 
 # L1
-# 0=air, 1=wall, 2=anchor, 3=chest, 4=spawn
+# 0=air, 1=wall, 2=anchor, 3=entrance (dark doorway), 4=spawn.
 L1_LEVEL = [
-    [1,1,0,0,0,3,3,0,0,0,1,1],
+    [1,1,0,0,0,0,0,0,0,0,1,1],
+    [1,1,0,0,0,0,0,0,0,0,1,1],
+    [1,1,0,0,0,0,0,0,0,0,1,1],
+    [1,1,0,0,0,0,0,0,0,0,1,1],
+    [1,1,0,0,0,0,0,0,0,0,1,1],
+    [1,1,0,0,0,0,0,0,0,0,1,1],
+    [1,1,0,0,0,0,0,0,0,0,1,1],
+    [1,1,0,0,0,0,0,0,0,0,1,1],
+    [1,1,0,0,0,0,0,2,0,0,1,1],
+    [1,1,0,0,0,0,0,0,0,0,1,1],
+    [1,1,0,0,0,0,0,0,0,3,1,1],
+    [1,1,0,0,0,0,0,1,1,1,1,1],
     [1,1,0,0,0,0,0,0,0,0,1,1],
     [1,1,0,0,0,0,0,0,0,0,1,1],
     [1,1,0,0,0,2,0,0,0,0,1,1],
@@ -103,7 +106,12 @@ L1_LEVEL = [
 ]# fmt: skip
 
 # L2
+# Row 0 anchors are trick-shot helpers; the escape anchor itself sits above
+# the dome slit (placed in code, not in the tilemap).
 L2_LEVEL = [
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0],
@@ -121,8 +129,8 @@ L2_LEVEL = [
     [1,1,0,0,0,0,0,0,0,0,1,1],
     [1,1,0,0,0,0,0,0,0,0,1,1],
     [1,1,0,0,0,0,0,0,0,0,1,1],
-    [1,1,0,0,2,0,0,2,0,0,1,1],
-    [1,1,0,0,0,0,0,0,0,0,1,1],
+    [1,1,0,0,0,0,0,2,0,0,1,1],
+    [1,1,0,0,2,0,0,0,0,0,1,1],
     [1,1,0,0,0,0,0,0,0,0,1,1],
     [1,1,5,0,1,1,1,1,0,5,1,1],
     [1,1,0,0,0,0,0,0,0,0,1,1],
