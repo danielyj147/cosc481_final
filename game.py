@@ -806,6 +806,13 @@ class Game:
         row = int(self.player.pos_y // TILE_SIZE)
         if self.level.tilemap[row][col] == TILE_ENTRANCE:
             return True
+        if (
+            self.escape_anchor is not None
+            and self.hook.state == Hook.STATE_ATTACHED
+            and self.hook.anchor_x == self.escape_anchor.x
+            and self.hook.anchor_y == self.escape_anchor.y
+        ):
+            return True
         return False
 
     def draw(self) -> None:
