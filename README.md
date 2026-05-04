@@ -32,7 +32,7 @@ by Daniel Jeong
     - [Music](#music)
     - [Sound Effects](#sound-effects)
   - [Game Experience](#game-experience)
-    - [In-game Screenshoots](#in-game-screenshoots)
+    - [In-game Screenshots](#in-game-screenshots)
     - [UI](#ui)
     - [Controls](#controls)
   - [Development Timeline](#development-timeline)
@@ -76,7 +76,7 @@ _Getting Over It_(GOI) is famous for its unintuivie and frustrating mechanics. I
 
 _Terraria_ has hooking mechanism that allows user to move between platforms using a hook item. The idea of using such mechanism in a 2D game is very appealing to me and I think the mechanism is much more interesting that just jumping.
 
-![terraria hook](/assets/terraria_hook.png)
+![terraria hook](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/terraria_hook.png)
 
 
 ### Player Experience
@@ -194,9 +194,15 @@ Dramatic sound effect when the player falls more than a certain y distance. "Hoo
 
 The professor wakes up at the bottom of the observatory shaft. Legs broken. Fog everywhere. He can't walk. He can't jump. But there's a hook and a rope lying next to him - and a long, long way up.
 
-### In-game Screenshoots
+### In-game Screenshots
 
+| Start | Level 1 |
+| --- | --- |
+| ![start](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/start.png) | ![l1](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/l1.png) |
 
+| Level 2 | End |
+| --- | --- |
+| ![l2](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/l2.png) | ![end](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/end.png) |
 
 ### UI
 
@@ -234,7 +240,7 @@ E : Fly mode & debug overlay (FPS, position, velocity, hook state)
 | 2 | Code Commit V1 | dev | 🟢 | April 19, 10 PM | L1 playable with hook mechanics |
 | 3 | Final Code | dev | 🟢 |  April 30, 5 PM| L2, ending sequence |
 | 4 | Final Design Doc | doc | 🟢 | May 4, 10 PM | |
-| 5 | Demo Vid | doc | 🔴 | May 4, 10 PM | |
+| 5 | Demo Vid | doc | 🟢 | May 4, 10 PM | |
 | 6 | Presentation | other | 🔴 | May 6, ??:?? | |
 
 ## References
