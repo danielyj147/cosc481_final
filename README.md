@@ -8,6 +8,8 @@ by Daniel Jeong
 
 ![Foggy Bottom Mystery](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/start.png)
 
+<div style="page-break-after: always;"></div>
+
 ## Table of Contents
 
 - [Foggy Bottom Mystery: GDD V2](#foggy-bottom-mystery-gdd-v2)
@@ -42,7 +44,7 @@ by Daniel Jeong
     - [Minimum Lovable Product](#minimum-lovable-product)
   - [References](#references)
 
----
+<div style="page-break-after: always;"></div>
 
 
 ## Introduction
