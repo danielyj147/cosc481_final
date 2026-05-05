@@ -1,0 +1,295 @@
+# Foggy Bottom Mystery: GDD V2
+
+by Daniel Jeong
+
+- [GitHub Profile](https://github.com/danielyj147)
+- [Repo Link](https://github.com/danielyj147/cosc481_final)
+- [Play Through Video](https://drive.google.com/file/d/1FH9yJjb8cEUDFjrHkaBDwbgWa5wZ-ugy/view?usp=sharing)
+
+![Foggy Bottom Mystery](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/start.png)
+
+<div style="page-break-after: always;"></div>
+
+## Table of Contents
+
+- [Foggy Bottom Mystery: GDD V2](#foggy-bottom-mystery-gdd-v2)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+    - [Game Summary Pitch](#game-summary-pitch)
+    - [Inspiration](#inspiration)
+    - [Player Experience](#player-experience)
+    - [Platform](#platform)
+    - [Software](#software)
+    - [Genre](#genre)
+    - [Target Audience](#target-audience)
+  - [Concept](#concept)
+    - [Gameplay Overview](#gameplay-overview)
+    - [Theme Interpretation](#theme-interpretation)
+    - [Primary Mechanics](#primary-mechanics)
+    - [Secondary Mechanics](#secondary-mechanics)
+  - [Art](#art)
+    - [Theme Interpretation](#theme-interpretation-1)
+    - [Design](#design)
+  - [Audio](#audio)
+    - [Music](#music)
+    - [Sound Effects](#sound-effects)
+  - [Game Experience](#game-experience)
+    - [In-game Screenshots](#in-game-screenshots)
+    - [UI](#ui)
+    - [Controls](#controls)
+  - [Technical Details](#technical-details)
+    - [Swing Mechanics](#swing-mechanics)
+    - [Perlin Noise as Fog \& Alpha Masking](#perlin-noise-as-fog--alpha-masking)
+  - [Development Timeline](#development-timeline)
+    - [Minimum Lovable Product](#minimum-lovable-product)
+  - [References](#references)
+
+<div style="page-break-after: always;"></div>
+
+
+## Introduction
+
+### Game Summary Pitch
+
+![Foggy Bottom Observatory](https://observatory.colgate.edu/foggybot/foggybot.gif)
+
+
+Have you ever been to [Colgate University's Foggy Bottom Observatory](https://observatory.colgate.edu/)? 
+
+Me neither. 
+
+What is this place, really? What is going on in there?? Why is it called Foggy Bottom??? 
+
+A newly hired Astronomy Professor arrives at Colgate, eager and naive. He hears whispers about the observatory - an old dome tucked away on the edge of campus, built in the 1950s. Students avoid it. Faculty don't talk about it. One night, curiosity wins. He walks in. The floor gives. He falls.
+
+He wakes up at the bottom - legs broken, surrounded by fog and old brick. The only way out is up. Luckily, there's a hook and a rope.
+
+To the foggy bottom...
+
+### Inspiration
+
+**Professor Layton**
+
+_Professor Layton_ acts as an inspiration for the visual and musical elements. It has a Japanese-European 2D animation style and a whimsical & classical soundtrack that captures the player's attention. The cadence of the music and the play is also a huge part of the game.
+
+![Professor Layton and Curious Village](https://upload.wikimedia.org/wikipedia/en/thumb/1/1b/Professor_Layton_and_the_Curious_Village_NA_Boxart.JPG/250px-Professor_Layton_and_the_Curious_Village_NA_Boxart.JPG)
+
+**Getting Over It with Bennett Foddy**
+
+_Getting Over It_ (GOI) is famous for its unintuitive and frustrating mechanics. It is also rather infamous for its level design that doesn't guarantee consistent progress — you can climb to right before the finish line and still fall all the way back to the very beginning with just one misclick. The dry, passive-aggressive voice-over when the player falls off a platform also adds to the fun of the game.
+
+![Getting Over It in game](https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Getting_Over_It_with_Bennett_Foddy_screenshot.jpg/250px-Getting_Over_It_with_Bennett_Foddy_screenshot.jpg)
+
+**Terraria**
+
+_Terraria_ has a hooking mechanism that lets the user move between platforms using a hook item. The idea of using such a mechanism in a 2D game is very appealing to me, and I think it is much more interesting than just jumping.
+
+![terraria hook](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/terraria_hook.png)
+
+
+### Player Experience
+
+The player wakes up at the bottom of a dark, foggy shaft. No jumping. No walking. Just a hook and a rope.
+
+Left click to shoot. Swing with the mouse. Reel in to climb. Miss, and you fall - sometimes all the way back down. The hook is your only friend, and the observatory doesn't want you to leave.
+
+Reflective surfaces bounce your hook. Crumbling walls won't hold. Every throw is a gamble. It's frustrating, funny, and deeply satisfying when it clicks.
+
+
+### Platform
+
+The game is developed to be released on Mac & Windows PC with the Pyray framework.
+
+
+### Software
+
+- VS Code
+- [DaVinci Resolve](https://www.blackmagicdesign.com/products/davinciresolve) (audio editing, image editing)
+- [Excali Draw](https://excalidraw.com/) (color pipette / picker)
+
+### Genre
+
+Singleplayer, platformer, climbing
+
+### Target Audience
+
+Colgate University COSC 481 students
+
+---
+
+## Concept
+
+### Gameplay Overview
+
+The player controls an Astronomy Professor, legs broken from the fall, who must climb out of the Foggy Bottom Observatory shaft using nothing but a hook and a rope. No walking. No jumping. Just throwing, swinging, and praying the brick holds.
+
+### Theme Interpretation
+
+Foggy background, Climb / Vertical Levels: a whimsical interpretation of the origin of the name "`Foggy` Bottom Observatory"
+
+Inability to walk or jump: the character is injured from the fall.
+
+### Primary Mechanics
+
+| Mechanic | Description |
+| --- | --- |
+| **Hook** | Left click shoots a hook toward the mouse cursor. It sticks to anchor points, bounces off walls. Left click again to release. |
+| **Reel in/out** | W / Up reels the rope in, S / Down lets it out |
+| **Swing** | A / D pumps the swing left and right while hooked. Pendulum physics with constraint projection. |
+
+### Secondary Mechanics
+
+| Mechanic | Description |
+| --- | --- |
+| **Momentum** | Releasing the hook preserves the player's velocity - build swing speed to launch to the next anchor |
+| **Wall collision** | Player slides along walls while swinging or falling, cannot walk |
+| **Reflect** | There are surfaces where the hook gets reflected rather than getting hooked (L2) |
+
+---
+
+## Art
+
+### Theme Interpretation
+
+The player is trapped inside a bricked shaft with thick fog rolling behind them. The character should look adventurous yet academic - a professor who wasn't dressed for this. 
+
+The character sprite is an archaeologist (although he is an astronomy professor) with whip animations that naturally map to the hook/rope mechanic. Animations: idle, movement, roll, whip attack, whip AoE, shoot, damage, death.
+
+
+### Design
+
+Old, weathered brick - the observatory was built in the 1950s and it shows. 2D Japanese-English animation style to heighten the mysterious, puzzling nature of the situation.
+
+**Asset Candidates:**
+
+| Asset | Source | License |
+| --- | --- | --- |
+| 2D Pixel Art Archaeologist Sprites (character) | [Elthen - itch.io](https://elthen.itch.io/2d-pixel-art-archaeologist) | Free (commercial/non-commercial) |
+| Brick 2D Tileset 16x16 (walls/platforms) | [DeadlyEssence01 - OpenGameArt](https://opengameart.org/content/brick-2d-tileset-sidescrollerplatformer-16x16-de) | CC0 |
+| 2D Dungeon Wall 32px Brick Brown | [lukems-br - OpenGameArt](https://opengameart.org/content/2d-dungeon-wall-32px-db32-palette-brick-brown) | CC0 |
+
+---
+
+## Audio
+
+### Music
+
+Whimsical & cadenced, like Professor Layton. The music should feel like you're solving something - not like you're in danger. Light tension, not dread.
+
+**Music Candidates:**
+
+| Track | Source |
+| --- | --- |
+| "페리온 OST" | [Maple Story](https://maplestory.nexon.com/Media/Music#a) |
+
+### Sound Effects
+
+Dramatic sound effect when the player falls more than a certain y distance. "Hooking" sound when the hook latches (nail-into-wall). Metallic clank when reflected off a surface.
+
+**SFX Candidates:**
+
+| Sound | Source | License |
+| --- | --- | --- |
+| Grappling Hook (launch) | [16bitstudios - Freesound](https://freesound.org/people/16bitstudios/sounds/541975/) | CC0 |
+| Metal Clank (hook impact / reflect) | [JustInvoke - Freesound](https://freesound.org/people/JustInvoke/sounds/446107/) | CC-BY 4.0 |
+| Rope Under Tension (swing) | [gear_clinkz - Freesound](https://freesound.org/people/gear_clinkz/sounds/547862/) | CC0 |
+| Whoosh (falling) | [Kinoton - Freesound](https://freesound.org/people/Kinoton/sounds/427823/) | CC0 |
+| Body Fall / Thud (dramatic fall) | [Breviceps - Freesound](https://freesound.org/people/Breviceps/sounds/447922/) | CC0 |
+
+---
+
+## Game Experience
+
+The professor wakes up at the bottom of the observatory shaft. Legs broken. Fog everywhere. He can't walk. He can't jump. But there's a hook and a rope lying next to him - and a long, long way up.
+
+### In-game Screenshots
+
+| Start | Level 1 |
+| --- | --- |
+| ![start](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/start.png) | ![l1](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/l1.png) |
+
+| Level 2 | End |
+| --- | --- |
+| ![l2](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/l2.png) | ![end](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/end.png) |
+
+### UI
+
+I want the UI to feel similar to that of `Professor Layton` — a 2010s 2D animation style with the nuance of early-1900s attire.
+
+### Controls
+
+**Mouse**
+
+Left Click: shoot hook toward cursor / release hook when attached
+
+Mouse Position: aim direction for hook
+
+**Keyboard**
+
+W / Up: reel in rope
+
+S / Down: let out rope
+
+A / D: pump swing left / right
+
+P: pause (shows control reference)
+
+E: Fly mode & debug overlay (FPS, position, velocity, hook state)
+
+---
+
+## Technical Details
+
+### Swing Mechanics
+
+The hook uses **position-based constraint projection** instead of angular pendulum math. Each frame:
+
+1. The player moves freely under gravity + A/D swing input.
+2. If the new position drifts farther than `rope_length` from the anchor, snap it back onto the rope's "circle" — the imaginary circle of all points exactly `rope_length` from the anchor.
+3. Decompose velocity into a radial component (along the rope) and a tangential component (perpendicular). Kill only the *outward* radial part — what's left is the swing.
+
+The result feels like a real rope: you can pull yourself in, let yourself out, and your sideways momentum carries you around the anchor. No trigonometry, just a vector projection per frame.
+
+Reference: [Swinging Physics for Player Movement](https://code.tutsplus.com/swinging-physics-for-player-movement-as-seen-in-spider-man-2-and-energy-hook--gamedev-8782t).
+
+### Perlin Noise as Fog & Alpha Masking
+
+The fog overlay is generated at startup, not loaded from a file. Two raylib helpers do the work:
+
+- `gen_image_perlin_noise(...)` produces a tileable greyscale cloud pattern.
+- `image_alpha_mask(image, mask)` writes the mask's brightness into the image's alpha channel.
+
+So a flat grey image gets the noise pattern carved into its alpha — bright noise = visible fog, dark noise = clear. The texture is then drawn with `TEXTURE_WRAP_MIRROR_REPEAT` and a scrolling source rect, so the fog drifts horizontally without a visible seam.
+
+The same trick recolors the brick sprite: load the brown bricks, convert to greyscale, then use them as an alpha mask over a green canvas. The brick *pattern* survives (via alpha) while the *colour* becomes the observatory's green.
+
+References: [Image generation](https://www.raylib.com/examples/textures/loader.html?name=textures_image_generation), [Alpha masking](https://www.raylib.com/examples/textures/loader.html?name=textures_image_channel).
+
+---
+
+## Development Timeline
+
+### Minimum Lovable Product
+
+| # | Assignment | Type | Status | Finish By | Notes |
+| --- | --- | --- | --- | --- | --- |
+| 1 | Initial Design Doc | doc | 🟢 | April 16, 10 PM | |
+| 2 | Code Commit V1 | dev | 🟢 | April 19, 10 PM | L1 playable with hook mechanics |
+| 3 | Final Code | dev | 🟢 |  April 30, 5 PM| L2, ending sequence |
+| 4 | Final Design Doc | doc | 🟢 | May 4, 10 PM | |
+| 5 | Demo Vid | doc | 🟢 | May 4, 10 PM | |
+| 6 | Presentation | other | 🔴 | May 6, ??:?? | |
+
+## References
+
+- COSC481 Playful Thinking, Serious Coding at Colgate University
+- Thanks to Professor Elodie Fourquet (efourquet@colgate.edu) for guidance and invaluable feedback.
+- Thanks to Edgar (esuritis@colgate.edu) for showing his dev mode (god mode).
+- [Owl Chemist GDD](https://docs.google.com/document/d/1_iPOdIFm9iiRNyMTM2WL3YTD0CGeOks3YKBjTsDJvd8/edit?tab=t.0#heading=h.k2hqrk99qjg6)
+- [Foggy Bottom Observatory](https://observatory.colgate.edu/foggybot/foggybot.html)
+- [`.github` template](https://github.com/lobehub/lobehub/tree/canary/.github)
+- [Perlin Noise](https://www.raylib.com/examples/textures/loader.html?name=textures_image_generation)
+- [Alpha Masking](https://www.raylib.com/examples/textures/loader.html?name=textures_image_channel)
+- [Swing Mechanics](https://code.tutsplus.com/swinging-physics-for-player-movement-as-seen-in-spider-man-2-and-energy-hook--gamedev-8782t)
+
+*AI was used for grammtical check & alpha masking implementation
