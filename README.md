@@ -84,7 +84,7 @@ _Getting Over It_ (GOI) is famous for its unintuitive and frustrating mechanics.
 
 _Terraria_ has a hooking mechanism that lets the user move between platforms using a hook item. The idea of using such a mechanism in a 2D game is very appealing to me, and I think it is much more interesting than just jumping.
 
-![terraria hook](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/terraria_hook.png)
+![terraria hook](https://raw.githubusercontent.com/danielyj147/cosc481_final/master/assets/img/terraria_hook.png)
 
 
 ### Player Experience
